@@ -12,6 +12,8 @@ const nonEmptyUrl = nonEmptyString.url("This field must be a valid URL");
 
 const envSchema = z.object({
 	DATABASE_URL: nonEmptyUrl,
+	NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: nonEmptyString,
+	CLERK_SECRET_KEY: nonEmptyString,
 });
 
 function parseEnv() {
