@@ -9,7 +9,7 @@ import { SQL, sql } from "drizzle-orm";
 const isSql = (exp: unknown): exp is SQL => exp instanceof SQL;
 
 export async function migrate() {
-	const client = neon(env.ADMIN_DATABASE_URL);
+	const client = neon(env.ADMIN_DATABASE_URL.href);
 	const db = drizzle(client);
 	const migrationsFolder = path.join(__dirname, "migrations");
 	const additionalSql = Object.values(schema).filter(isSql);

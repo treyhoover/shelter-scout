@@ -4,7 +4,7 @@ import { sql } from "drizzle-orm";
 import { drizzle, type NeonDatabase } from "drizzle-orm/neon-serverless";
 import * as schema from "./schema";
 
-const pool = new Pool({ connectionString: env.USER_DATABASE_URL });
+const pool = new Pool({ connectionString: env.USER_DATABASE_URL.href });
 const db = drizzle(pool, { schema });
 
 export type DbUser = {

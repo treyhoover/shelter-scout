@@ -27,7 +27,7 @@ async function isAnyTablePopulated(db: ReturnType<typeof drizzle>) {
 }
 
 export async function seed() {
-	const sql = neon(env.ADMIN_DATABASE_URL);
+	const sql = neon(env.ADMIN_DATABASE_URL.href);
 	const db = drizzle(sql, { schema });
 
 	// Check if we're in production

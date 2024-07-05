@@ -5,22 +5,23 @@ import * as schema from "./schema";
 import { sql } from "drizzle-orm";
 
 export async function initDb() {
-	const client = neon(env.ADMIN_DATABASE_URL);
+	const client = neon(env.ADMIN_DATABASE_URL.href);
 	const db = drizzle(client, { schema });
+	const { username, password } = env.USER_DATABASE_URL;
 
 	db.execute(
 		sql.raw(`
       DO $$
 			BEGIN
 					-- Drop the role if it exists
-					DROP ROLE IF EXISTS ${env.USER_DATABASE_USERNAME};
+					DROP ROLE IF EXISTS ${username};
 
 					-- Create the new role
-					CREATE ROLE ${env.USER_DATABASE_USERNAME} WITH LOGIN PASSWORD '${env.USER_DATABASE_PASSWORD}';
+					CREATE ROLE ${username} WITH LOGIN PASSWORD '${password}';
 
 					-- Grant necessary permissions
-					GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO ${env.USER_DATABASE_USERNAME};
-					GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO ${env.USER_DATABASE_USERNAME};
+					GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO ${username};
+					GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA public TO ${username};
 			END
 			$$;
 		`),

@@ -19,7 +19,7 @@ describe("Database Connection", () => {
 	let db: ReturnType<typeof drizzle>;
 
 	before(async () => {
-		const client = neon(env.USER_DATABASE_URL);
+		const client = neon(env.USER_DATABASE_URL.href);
 		db = await drizzle(client, { schema });
 	});
 
