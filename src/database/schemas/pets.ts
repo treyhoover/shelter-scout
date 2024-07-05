@@ -1,14 +1,14 @@
 import {
 	pgTable,
-	serial,
 	varchar,
 	text,
 	integer,
 	timestamp,
+	uuid,
 } from "drizzle-orm/pg-core";
 
 export const pets = pgTable("pets", {
-	id: serial("id").primaryKey(),
+	id: uuid("id").defaultRandom().primaryKey(),
 	name: varchar("name", { length: 255 }).notNull(),
 	type: varchar("type", { length: 255 }).notNull(),
 	breed: varchar("breed", { length: 255 }).notNull(),

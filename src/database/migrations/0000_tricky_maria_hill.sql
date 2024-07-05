@@ -1,17 +1,17 @@
 CREATE TABLE IF NOT EXISTS "images" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"url" varchar(255) NOT NULL,
 	"created_at" timestamp DEFAULT now()
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "pet_images" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"pet_id" integer NOT NULL,
-	"image_id" integer NOT NULL
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"pet_id" uuid NOT NULL,
+	"image_id" uuid NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "pets" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" varchar(255) NOT NULL,
 	"type" varchar(255) NOT NULL,
 	"breed" varchar(255) NOT NULL,
@@ -23,18 +23,19 @@ CREATE TABLE IF NOT EXISTS "pets" (
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "shelter_images" (
-	"id" serial PRIMARY KEY NOT NULL,
-	"shelter_id" integer NOT NULL,
-	"image_id" integer NOT NULL
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
+	"shelter_id" uuid NOT NULL,
+	"image_id" uuid NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE IF NOT EXISTS "shelters" (
-	"id" serial PRIMARY KEY NOT NULL,
+	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"name" varchar(255) NOT NULL,
 	"email" varchar(255) NOT NULL,
 	"phone" varchar(15) NOT NULL,
 	"address" text NOT NULL,
 	"created_at" timestamp DEFAULT now(),
+	"owner_id" uuid NOT NULL,
 	CONSTRAINT "shelters_email_unique" UNIQUE("email")
 );
 --> statement-breakpoint

@@ -11,14 +11,22 @@ const nonEmptyString = z.string().min(1, "This field cannot be empty");
 const nonEmptyUrl = nonEmptyString.url("This field must be a valid URL");
 
 const envSchema = z.object({
-	DATABASE_URL: nonEmptyUrl,
+	ADMIN_DATABASE_URL: nonEmptyUrl,
+	USER_DATABASE_URL: nonEmptyUrl,
 	NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: nonEmptyString,
 	CLERK_SECRET_KEY: nonEmptyString,
 });
 
 function parseEnv() {
 	try {
-		return envSchema.parse(process.env);
+		const env = envSchema.parse(process.env);
+
+		return {
+			...env,
+			// We need to parse these so we can be sure to create the app user if it doesn't exist
+			USER_DATABASE_USERNAME: new URL(env.USER_DATABASE_URL).username,
+			USER_DATABASE_PASSWORD: new URL(env.USER_DATABASE_URL).password,
+		};
 	} catch (error) {
 		if (error instanceof z.ZodError) {
 			const missingVars = error.errors.map(

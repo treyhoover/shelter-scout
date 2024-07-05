@@ -6,11 +6,13 @@
 		"dev": "next dev --turbo",
 		"build": "next build",
 		"start": "next start",
-		"db:studio": "drizzle-kit studio",
+		"test": "tsx --test --test-force-exit src/**/*.test.ts",
 		"db:gen": "drizzle-kit generate --dialect=postgresql --schema=src/database/schema.ts --out=./src/database/migrations",
+		"db:init": "tsx ./src/database/init",
 		"db:migrate": "tsx ./src/database/migrate",
 		"db:seed": "tsx ./src/database/seed",
-		"db:setup": "pnpm run db:migrate && pnpm run db:seed"
+		"db:setup": "pnpm run db:init && pnpm run db:migrate && pnpm run db:seed",
+		"db:studio": "drizzle-kit studio"
 	},
 	"dependencies": {
 		"@clerk/nextjs": "^5.2.2",
